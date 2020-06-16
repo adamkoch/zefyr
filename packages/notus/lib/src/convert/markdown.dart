@@ -182,7 +182,8 @@ class _NotusMarkdownDecoder extends Converter<String, Delta> {
         delta.insert('$span');
         delta.insert('\n', outerStyle);
       } else {
-        delta.insert(span, outerStyle);
+        delta.insert(
+            span, outerStyle..removeWhere((key, value) => key == 'heading'));
       }
     } else if (addNewLine) {
       delta.insert('\n', outerStyle);
