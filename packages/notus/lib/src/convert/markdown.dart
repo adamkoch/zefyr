@@ -179,7 +179,8 @@ class _NotusMarkdownDecoder extends Converter<String, Delta> {
 
     if (span.isNotEmpty) {
       if (addNewLine) {
-        delta.insert('$span\n', outerStyle);
+        delta.insert('$span');
+        delta.insert('\n', outerStyle);
       } else {
         delta.insert(span, outerStyle);
       }
