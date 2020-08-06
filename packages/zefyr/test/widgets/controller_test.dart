@@ -21,7 +21,7 @@ void main() {
     });
 
     test('selection', () {
-      bool notified = false;
+      var notified = false;
       controller.addListener(() {
         notified = true;
       });
@@ -32,7 +32,7 @@ void main() {
     });
 
     test('compose', () {
-      bool notified = false;
+      var notified = false;
       controller.addListener(() {
         notified = true;
       });
@@ -46,7 +46,7 @@ void main() {
     });
 
     test('compose and transform position', () {
-      bool notified = false;
+      var notified = false;
       controller.addListener(() {
         notified = true;
       });
@@ -63,7 +63,7 @@ void main() {
     });
 
     test('replaceText', () {
-      bool notified = false;
+      var notified = false;
       controller.addListener(() {
         notified = true;
       });
@@ -76,7 +76,7 @@ void main() {
     });
 
     test('formatText', () {
-      bool notified = false;
+      var notified = false;
       controller.addListener(() {
         notified = true;
       });
@@ -91,7 +91,7 @@ void main() {
     });
 
     test('formatText with toggled style enabled', () {
-      bool notified = false;
+      var notified = false;
       controller.addListener(() {
         notified = true;
       });
@@ -116,7 +116,7 @@ void main() {
     });
 
     test('insert text with toggled style unset', () {
-      bool notified = false;
+      var notified = false;
       controller.addListener(() {
         notified = true;
       });
@@ -139,7 +139,7 @@ void main() {
     });
 
     test('formatSelection', () {
-      bool notified = false;
+      var notified = false;
       controller.addListener(() {
         notified = true;
       });
@@ -169,6 +169,22 @@ void main() {
 
       var result = controller.getSelectionStyle();
       expect(result.values, [NotusAttribute.bold]);
+    });
+
+    test('preserve inline format when replacing text from the first character',
+        () {
+      var notified = false;
+      controller.addListener(() {
+        notified = true;
+      });
+      controller.formatText(0, 0, NotusAttribute.bold);
+      controller.replaceText(0, 0, 'Word');
+      expect(notified, isTrue);
+      expect(
+        controller.document.toDelta(),
+        Delta()..insert('Word', NotusAttribute.bold.toJson())..insert('\n'),
+      );
+      expect(controller.lastChangeSource, ChangeSource.local);
     });
   });
 }
